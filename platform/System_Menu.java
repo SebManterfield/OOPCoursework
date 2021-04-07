@@ -26,7 +26,7 @@ public class System_Menu {
 	private static String tempUsername;
 	
 	/* Main function imports auctions from auction.txt which is stored as a csv file
-	 * 
+	 * Calls Main menu switch case
 	 * 
 	 * 
 	 */
