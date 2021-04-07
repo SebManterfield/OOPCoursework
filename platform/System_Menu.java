@@ -16,6 +16,12 @@ import core.Bid;
 import core.Item;
 import core.Seller;
 
+
+
+/**
+ * @author ebbsc
+ *
+ */
 public class System_Menu {
 	
 	public static Scanner keyboard = new Scanner(System.in);
@@ -25,11 +31,7 @@ public class System_Menu {
 	private static boolean adminLoggedIn = false;
 	private static String tempUsername;
 	
-	/* Main function imports auctions from auction.txt which is stored as a csv file
-	 * Calls Main menu switch case......
-	 * 
-	 * 
-	 */
+
 	public static void main (String[] args) throws IOException
 	{
 		importAuctions();
@@ -38,6 +40,9 @@ public class System_Menu {
 	}
 	
 	
+	/**
+	 * @throws IOException
+	 */
 	public static void mainMenu() throws IOException 
 	{
 		User test = new User("bob","bobpass");
@@ -66,6 +71,9 @@ public class System_Menu {
 		//Need validation for file(try/catch) and every input
 		
 		//github test comment
+		
+		
+	
 		
 		switch (choice) 
 		{
@@ -100,6 +108,7 @@ public class System_Menu {
 	}
 	
 	
+
 	public static void signOut() throws IOException {
 		loggedIn = false;
 		tempUsername = "";
@@ -108,6 +117,10 @@ public class System_Menu {
 	}
 
 
+
+	/**
+	 * @throws IOException
+	 */
 	public static void importAuctions() throws IOException 
 	{
 		String AuctionPath = "auctions.txt";
@@ -125,6 +138,9 @@ public class System_Menu {
 
 	}
 	
+	/**
+	 * @throws IOException
+	 */
 	public static void exportAuctions() throws IOException 
 	{
 		String AuctionPath = "auctions.txt";
@@ -239,6 +255,9 @@ public class System_Menu {
 		}
 	}
 	
+	/**
+	 * @throws IOException
+	 */
 	public static void login() throws IOException {
 		System.out.println("Enter Username: ");
 		String username = keyboard.nextLine();
@@ -263,6 +282,9 @@ public class System_Menu {
 	
 	
 
+	/**
+	 * @throws IOException
+	 */
 	public static void setupAccount() throws IOException {
 	
 		System.out.println("Enter Username: ");
