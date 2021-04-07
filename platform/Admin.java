@@ -84,7 +84,7 @@ public class Admin {
 				
 		User tempUser = new User();
 		tempUser = System_Menu.Accounts.get(userNum);
-		
+		 
 		tempUser.
 		.setIsBlocked(true);
 		adminMenu();
