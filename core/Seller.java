@@ -1,13 +1,11 @@
 package core;
 
-import java.util.ArrayList;
-
 import platform.User;
 
 
 public class Seller extends User{
 	
-	private ArrayList<Item> items; 
+	
 	private boolean isBlocked = false;
 	
 	/**
@@ -21,23 +19,33 @@ public class Seller extends User{
 		super(username, password);
 	}
 	
+
 	/**
 	 * Returns true if the seller is blocked otherwise returns false
 	 * @return
 	 */
 	
 	
+
+	public Seller() {
+		// TODO Auto-generated constructor stub
+	}
+
+
 	public boolean getIsBlocked() {
 		return isBlocked;
 	}
-	
-	
+		
 	
 	/**
 	 * Block the seller
 	 */
-	public void setIsBlocked() {
+	
+
+	public void setIsBlocked(boolean blocked) {
+
 		
+		isBlocked = blocked;
 	}
 
 	

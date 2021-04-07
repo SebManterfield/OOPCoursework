@@ -1,12 +1,7 @@
 package platform;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -28,7 +23,6 @@ public class System_Menu {
 	public static ArrayList<Auction> Auctions  = new ArrayList<>();
 	public static ArrayList<User> Accounts = new ArrayList<>();
 	private static boolean loggedIn = false;
-	private static boolean adminLoggedIn = false;
 	private static String tempUsername;
 	
 
@@ -56,21 +50,19 @@ public class System_Menu {
 		}
 		
 		System.out.println("Please select:");
-		System.out.println("1. Browse Auctions\n2. Setup Account\n3. Start Auction");
+		System.out.println("1. Browse Auctions\n2. Setup Account\n3. Start Auction\n4. Admin Login");
 		
 		if(loggedIn) {
-			System.out.println("4. Sign Out\n5. Exit");
+			System.out.println("5. Sign Out\n6. Exit");
 		}
 		else {
-			System.out.println("4. Login\n5. Exit");
+			System.out.println("5. Login\n6. Exit");
 		}
 		
 		String choice = keyboard.nextLine(); 
 		
-		//Need login for admin
-		//Need validation for file(try/catch) and every input
 		
-		//github test comment
+		
 		
 		
 	
@@ -78,15 +70,20 @@ public class System_Menu {
 		switch (choice) 
 		{
 		case "1":
-			browseAuction();
+			Auction.browseAuction();
 			break;
 		case "2":
 			setupAccount();
 			break;
 		case "3":
-			startAuction();
+			Auction.startAuction();
 			break;
 		case "4":
+			Admin.adminLogin();
+			break;
+			
+			
+		case "5":
 			if(!loggedIn) {
 				login();
 				break;
@@ -96,7 +93,7 @@ public class System_Menu {
 				break;
 			}
 			break;
-		case "5":
+		case "6":
 			System.exit(0);
 			break;
 		
@@ -123,18 +120,7 @@ public class System_Menu {
 	 */
 	public static void importAuctions() throws IOException 
 	{
-		String AuctionPath = "auctions.txt";
-		Path pathToFile =Paths.get(AuctionPath);
-
-		try (BufferedReader br = Files.newBufferedReader(pathToFile,StandardCharsets.US_ASCII))
-		{
-			String line = br.readLine();
-			
-			while (line != null) {
-					String[] attributes = line.split(",");
-
-			}
-		}
+		
 
 	}
 	
@@ -160,90 +146,7 @@ public class System_Menu {
 		mainMenu();
 	}
 	
-	public static void startAuction() throws IOException {
-		Seller tempSeller = null;
-		if(!loggedIn) {
-			System.out.println("You need to be logged in!");
-			mainMenu();
-		}
-		for (User user : Accounts) {
-			if(user.getUsername().equals(tempUsername)) {
-				tempSeller = new Seller(user.getUsername(),user.getPassword());
-				if(tempSeller.getIsBlocked()) {
-					System.out.println("You are are blocked user!");
-					mainMenu();
-				}
-			}
-		}
-		
-		System.out.println("Enter item name: ");
-		String item = keyboard.nextLine();
-		
-		System.out.println("Enter item description");
-		String description = keyboard.nextLine();
-		
-		Item tempItem = new Item(item,description);
-		
-		System.out.println("Enter Starting Price: ");
-		double startPrice = keyboard.nextDouble();
-		
-		System.out.println("Enter Reserve Price: ");
-		double reservePrice = keyboard.nextDouble();
-		
-		int closingDate = 8;
-		
-		while(closingDate > 7) {
-			System.out.println("How many days would you like the auction to last (Max 7 days): ");
-			closingDate = keyboard.nextInt();
-		}
-		
-		Date date = new Date(); 
-		date.setDate(date.getDate()+closingDate);
-		
-		double auctionID = 1;
-		
-		if(Auctions.size() != 0) {
-			auctionID = Auctions.size() + 1;
-		}
-		
-		System.out.println("Verify these details:\nItem Name: " + tempItem.getName() + 
-				"\nItem Price: " + startPrice + "\nReserve Price: " + reservePrice + 
-				"\nEnd Date: " + date + "\n(Y/N): ");
-		
-		String verify = keyboard.next();
-		
-		if(verify.toLowerCase().equals("y")) {
-			Auction newAuction = new Auction(auctionID,startPrice,reservePrice,date,false,tempItem,tempSeller);
-			Auctions.add(newAuction);
-			exportAuctions();
-			System.out.println("Auction Started!");
-				
-		}
-		else if (verify.toLowerCase().equals("n")) {
-			startAuction();
-		}
-		else {
-			System.out.println("Error");
-		}
-	}
 	
-	public static void browseAuction() throws IOException {
-		System.out.print("Auction ID\tItem\tStatus");
-		for (Auction auction : Auctions) {
-			System.out.println(auction.getAuctionID() + "\t" + auction.getItemToSell().getName() + 
-					"\t" + auction.getStatus());
-		}
-		
-		System.out.println("Do you want to bid on an auction?(Y/N): ");
-		String choice = keyboard.nextLine();
-		
-		if(choice.toLowerCase().equals("y")) {
-			placeBid();
-		}
-		else {
-			mainMenu();
-		}
-	}
 	
 	public static void placeBid() throws IOException {
 		if(loggedIn == false) {
@@ -313,5 +216,29 @@ public class System_Menu {
 	}
 	
 	
+	
+	public static void setloggedIn(boolean isLoggedIn)
+	{
+		loggedIn = isLoggedIn;
+		
+	}
+	
+	public static void setTempUsername(String username)
+	{
+		tempUsername = username;
+		
+	}
+	
+	
+	public static boolean getLoggedIn() 
+	{
+		return loggedIn;
+		
+	}
+	
+	public static String getTempUsername()
+	{
+		return tempUsername;
+	}
 
 }
