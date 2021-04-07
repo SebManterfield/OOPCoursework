@@ -25,7 +25,11 @@ public class System_Menu {
 	private static boolean adminLoggedIn = false;
 	private static String tempUsername;
 	
-	
+	/* Main function imports auctions from auction.txt which is stored as a csv file
+	 * 
+	 * 
+	 * 
+	 */
 	public static void main (String[] args) throws IOException
 	{
 		importAuctions();
