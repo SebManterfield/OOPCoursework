@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import core.Auction;
 import core.Bid;
+import core.Buyer;
 import core.Item;
 import core.Seller;
 
@@ -39,7 +40,7 @@ public class System_Menu {
 	 */
 	public static void mainMenu() throws IOException 
 	{
-		User test = new User("bob","bobpass");
+		Buyer test = new Buyer("bob","bobpass");
 		Accounts.add(test);
 		System.out.println("------------------------");
 		System.out.println("Welcome to Auction System");
@@ -203,42 +204,51 @@ public class System_Menu {
 		System.out.println("Enter Password: ");
 		String password = keyboard.nextLine();
 		
-		User newAccount = new User(username,password);
+		System.out.println("Would you like a Seller or Buyer account? (S/B)");
+		String type = keyboard.nextLine().toLowerCase();
 		
-		Accounts.add(newAccount);
+		if(type.equals("s")) {
+			type = "Seller";		
+		}
+		else if (type.equals("b"))
+		{
+			type = "Buyer";
+		}
+		else
+		{
+			System.out.println("Invlaid type");
+			setupAccount();
+		}
+		
+		if (type.equals("Seller"))
+		{
+			Accounts.add(new Seller(username,password));
+		}
+		
+		else if (type.equals("Buyer"))
+		{
+			Accounts.add(new Buyer(username,password));
+		}
+		
+		
 		System.out.print("Account Created!");
 		
 		loggedIn = true;
-		tempUsername = newAccount.getUsername();
+		tempUsername = username;
 		
 		mainMenu();
 		
 	}
-	
-	
-	
-	public static void setloggedIn(boolean isLoggedIn)
-	{
-		loggedIn = isLoggedIn;
+
+
+	public static void setloggedIn(boolean b) {
 		
-	}
-	
-	public static void setTempUsername(String username)
-	{
-		tempUsername = username;
+		loggedIn = b;
 		
 	}
 	
 	
-	public static boolean getLoggedIn() 
-	{
-		return loggedIn;
-		
-	}
 	
-	public static String getTempUsername()
-	{
-		return tempUsername;
-	}
+	
 
 }

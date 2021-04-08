@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import platform.Status;
 import platform.System_Menu;
 import platform.User;
 
@@ -14,9 +15,10 @@ public class Auction {
 	private double startPrice;
 	private double reservePrice;
 	private Date closeDate; 
-	private boolean isBlocked;
 	private Item itemToSell;
 	private Seller seller;
+	private Buyer winner;
+	private Status status;
 	public ArrayList<Bid> Bids = new ArrayList<>();
 	
 	public Auction(double auctionID, double startPrice, double reservePrice, Date closeDate, boolean isBlocked, Item itemToSell, Seller seller)
@@ -25,9 +27,9 @@ public class Auction {
 		this.startPrice = startPrice;
 		this.reservePrice = reservePrice;
 		this.closeDate = closeDate;
-		this.isBlocked = isBlocked;
 		this.itemToSell = itemToSell;
 		this.seller = seller;
+		this.status = Status.PENDING;
 	}
 	
 	public Auction() {
@@ -50,8 +52,8 @@ public class Auction {
 		return closeDate;
 	}
 
-	public boolean getStatus() {
-		return isBlocked;
+	public Status getStatus() {
+		return this.status;
 	}
 
 	public Item getItemToSell() {
@@ -62,10 +64,17 @@ public class Auction {
 		return seller;
 	}
 	
+	public Buyer getWinner()
+	{
+		
+		return this.winner;
+	}
+	
 public static void startAuction() throws IOException {
 		
 		
-		Seller tempSeller = null;
+		Seller tempSeller = new Seller();
+		User currentUser = new User();
 		
 		if(!System_Menu.getLoggedIn()) {
 			System.out.println("You need to be logged in!");
@@ -74,9 +83,17 @@ public static void startAuction() throws IOException {
 		for (User user : System_Menu.Accounts) {
 			if(user.getUsername().equals(System_Menu.getTempUsername())) {
 				tempSeller = new Seller(user.getUsername(),user.getPassword());
-				if(tempSeller.getIsBlocked()) {
+				currentUser = user;
+				if(tempSeller.isBlocked()) {
 					System.out.println("You are are blocked user!");
 					System_Menu.mainMenu();
+				if (user.getType().equals("Buyer")) 
+				{
+					System.out.println("Your account is a buyer account, please create a seller account");
+					System_Menu.mainMenu();
+				}
+					
+				
 				}
 			}
 		}
@@ -157,8 +174,9 @@ public static void startAuction() throws IOException {
 			Auction newAuction = new Auction(auctionID,startPrice,reservePrice,date,false,tempItem,tempSeller);
 			 System_Menu.Auctions.add(newAuction);
 			 System_Menu.exportAuctions();
+			 newAuction.status = Status.ACTIVE;
 			System.out.println("Auction Started!");
-				
+			
 		}
 		else if (verify.toLowerCase().equals("n")) {
 			startAuction();
@@ -172,8 +190,11 @@ public static void startAuction() throws IOException {
 	public static void browseAuction() throws IOException {
 		System.out.print("Auction ID\tItem\tStatus");
 		for (Auction auction :  System_Menu.Auctions) {
+			if(auction.status.equals(Status.ACTIVE))
+			{
 			System.out.println(auction.getAuctionID() + "\t" + auction.getItemToSell().getName() + 
 					"\t" + auction.getStatus());
+			}
 		}
 		
 		System.out.println("Do you want to bid on an auction?(Y/N): ");
@@ -182,7 +203,7 @@ public static void startAuction() throws IOException {
 		if(choice.toLowerCase().equals("y")) {
 			User.placeBid();
 		}
-		else {
+		else { 
 			 System_Menu.mainMenu();
 		}
 	}
@@ -194,13 +215,32 @@ public static void startAuction() throws IOException {
 	
 	public void close()
 	{}
-	
+	 
 	public boolean isBlocked()
 	{
-		return false;}
+		if(this.status.equals(Status.BLOCKED))
+		{
+			return true;
+		
+		}
+		
+		else
+		{
+			return false;
+		}
+		
+	}
 	
 	public void setBlocked()
-	{}
+	{
+		this.status = Status.BLOCKED;
+	}
+	
+	public void setUnblocked()
+	{
+		this.status = Status.ACTIVE;
+	}
+	
 	
 	
 	

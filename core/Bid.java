@@ -9,7 +9,6 @@ public class Bid {
 	private Date when;
 	
 	public Bid(double amount, Buyer who, Date when) {
-		super();
 		this.amount = amount;
 		this.who = who;
 		this.when = when;

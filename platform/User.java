@@ -4,18 +4,21 @@ public class User {
 	
 	private String username;
 	private String password;
+	private String type;
+
 	
-	
-	public User(String username, String password) {
-		super();
+	public User(String username, String password, String type) {
 		this.username = username;
 		this.password = password;
+		this.type = type;
 	}
 	
 
 	public User() {
-		// TODO Auto-generated constructor stub
+		
 	}
+	
+	
 
 
 	public String getUsername() {
@@ -25,6 +28,18 @@ public class User {
 	public String getPassword() {
 		return password;
 	}
+	
+	public String getType() 
+	{
+		return type;
+	}
+	
+	public void setType(String type) 
+	{
+		this.type = type;
+		
+	}
+	
 
 
 	public boolean checkPassword()

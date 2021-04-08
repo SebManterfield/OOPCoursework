@@ -1,12 +1,13 @@
 package core;
 
+import platform.Status;
 import platform.User;
 
 
 public class Seller extends User{
 	
 	
-	private boolean isBlocked = false;
+
 	
 	/**
 	 * seller Constructor
@@ -15,8 +16,11 @@ public class Seller extends User{
 	 * @param password
 	 */
 	
+	private Status status;
+	
 	public Seller(String username, String password) {
-		super(username, password);
+		super(username, password,"Seller");
+		this.status = Status.ACTIVE;
 	}
 	
 
@@ -32,8 +36,16 @@ public class Seller extends User{
 	}
 
 
-	public boolean getIsBlocked() {
-		return isBlocked;
+	
+	public boolean isBlocked()
+	{
+		if(this.status.equals(Status.BLOCKED)) {
+			return true;
+		}
+		else {
+		
+		return false;
+		}
 	}
 		
 	
@@ -41,12 +53,17 @@ public class Seller extends User{
 	 * Block the seller
 	 */
 	
-
+	
 	public void setIsBlocked(boolean blocked) {
 
 		
-		isBlocked = blocked;
+		this.status=Status.BLOCKED;
 	}
+	
+	public void setUnblocked() {
+		this.status = Status.ACTIVE;
+	}
+	
 
 	
 }
