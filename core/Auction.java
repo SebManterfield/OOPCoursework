@@ -1,6 +1,7 @@
 package core;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -20,6 +21,8 @@ public class Auction {
 	private Buyer winner;
 	private Status status;
 	public ArrayList<Bid> Bids = new ArrayList<>();
+	public double highestBid;
+	public static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 	
 	public Auction(double auctionID, double startPrice, double reservePrice, Date closeDate, boolean isBlocked, Item itemToSell, Seller seller)
 	{
@@ -74,8 +77,6 @@ public static void startAuction() throws IOException {
 		
 		
 		Seller tempSeller = new Seller();
-		User currentUser = new User();
-		
 		if(!System_Menu.getLoggedIn()) {
 			System.out.println("You need to be logged in!");
 			System_Menu.mainMenu();
@@ -83,7 +84,6 @@ public static void startAuction() throws IOException {
 		for (User user : System_Menu.Accounts) {
 			if(user.getUsername().equals(System_Menu.getTempUsername())) {
 				tempSeller = new Seller(user.getUsername(),user.getPassword());
-				currentUser = user;
 				if(tempSeller.isBlocked()) {
 					System.out.println("You are are blocked user!");
 					System_Menu.mainMenu();
@@ -156,6 +156,8 @@ public static void startAuction() throws IOException {
 		}
 		
 		Date date = new Date(); 
+		sdf.format(date);
+		
 		date.setDate(date.getDate()+closingDate);
 		
 		double auctionID = 1;
@@ -201,7 +203,7 @@ public static void startAuction() throws IOException {
 		String choice =  System_Menu.keyboard.nextLine();
 		
 		if(choice.toLowerCase().equals("y")) {
-			User.placeBid();
+			System_Menu.placeBid();
 		}
 		else { 
 			 System_Menu.mainMenu();
@@ -209,12 +211,19 @@ public static void startAuction() throws IOException {
 	}
 	
 	
-	public void placeBid()
-	{}
-	
-	
 	public void close()
-	{}
+	
+	{
+		Date date = new Date();
+		
+	
+		if(date.getDate().equals(this.closeDate))
+		{
+			
+		}
+		
+		
+	}
 	 
 	public boolean isBlocked()
 	{

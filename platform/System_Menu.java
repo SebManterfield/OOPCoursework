@@ -151,12 +151,41 @@ public class System_Menu {
 	
 	public static void placeBid() throws IOException {
 		if(loggedIn == false) {
-			System.out.println("Need to login to place bid!\nDo you want to create an account?(Y/N): ");
+			System.out.println("Need to login to place bid!\nDo you want to:\n1: Log in\n2. Sign up\n3. Return to main menu ");
 			String choice = keyboard.nextLine();
-			if(choice.toLowerCase().equals("y")) {
+			
+			switch(choice)
+			{
+			case "1":
+				login();
+				break;
+			case "2":
 				setupAccount();
+				break;
+			case "3":
+				mainMenu();
+				break;
+			default:
+				System.out.println("Invalid input, please try again");
+				placeBid();
+				break;
+			
 			}
+			
+			for (Auction auction: Auctions)
+			{
+				System.out.println("Auction No: "+ auction.getAuctionID() +"\tItem on sale: "+auction.getItemToSell()+"\tStarting Price " + auction.getStartPrice()+"\tHighest Bidder: "+auction.getHighestBid() )
+				
+				
+			}
+			
+			
+		
 		}
+	
+	
+	
+	
 	}
 	
 	/**
@@ -247,7 +276,15 @@ public class System_Menu {
 		
 	}
 	
+	public static boolean getLoggedIn()
+	{
+		return loggedIn;
+	}
 	
+	public static String getTempUsername()
+	{
+		return tempUsername;
+	}
 	
 	
 
